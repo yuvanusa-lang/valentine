@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Ana, Veux-tu être ma Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #ff6b9d 75%, #c94b4b 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Romantic overlay effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 240, 245, 0.95) 100%);
+            border-radius: 35px;
+            box-shadow: 0 25px 80px rgba(139, 0, 139, 0.4), 0 0 50px rgba(255, 105, 180, 0.3);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            animation: fadeIn 1.5s ease;
+            z-index: 1;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .question-page {
+            display: block;
+        }
+
+        .yes-page {
+            display: none;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #c94b4b 0%, #ff1744 50%, #ff69b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 2s ease-in-out infinite;
+            font-weight: 700;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gif-container {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .gif-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff69b4, #ff1744, #c94b4b);
+            border-radius: 25px;
+            opacity: 0.3;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .gif-container img {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(201, 75, 75, 0.4);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff1744 0%, #c94b4b 50%, #8b0000 100%);
+            color: white;
+            animation: pulseGlow 2s infinite;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(255, 23, 68, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 8px 25px rgba(255, 23, 68, 0.5), 0 0 30px rgba(255, 105, 180, 0.3);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 10px 35px rgba(255, 23, 68, 0.7), 0 0 50px rgba(255, 105, 180, 0.5);
+            }
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #9e9e9e, #616161);
+            color: white;
+            position: relative;
+            z-index: 5;
+        }
+
+        #noBtn:active {
+            background: linear-gradient(135deg, #757575, #424242);
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 2em;
+            animation: float 4s ease-in-out infinite;
+            opacity: 0.8;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.6));
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            50% { 
+                transform: translateY(-30px) rotate(15deg) scale(1.1);
+            }
+        }
+
+        .celebration {
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #c94b4b 0%, #ff1744 50%, #ff69b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 20px;
+            animation: fadeIn 1s ease;
+            font-weight: 600;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #ff1744;
+            animation: confettiFall 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .yes-gif {
+            max-width: 350px;
+            width: 100%;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 20px 50px rgba(201, 75, 75, 0.5);
+        }
+
+        /* Full screen Yes button */
+        .fullscreen-yes {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            border-radius: 0 !important;
+            font-size: 3em !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            background: linear-gradient(135deg, #ff1744 0%, #c94b4b 50%, #8b0000 100%) !important;
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Rose petals falling */
+        .rose-petal {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, #ff69b4 0%, #ff1744 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: petalFall 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes petalFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Question Page -->
+        <div class="question-page" id="questionPage">
+            <h1>Ana, Veux-tu être ma Valentine? 💝</h1>
+            
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/kZiDpAW9d9fr2suuS7/giphy.gif" alt="Bob the Minion with hearts">
+            </div>
+            
+            <div class="buttons" id="buttonContainer">
+                <button id="yesBtn" onclick="showYesPage()">Oui! 💕</button>
+                <button id="noBtn" onclick="handleNoClick()">Non</button>
+            </div>
+        </div>
+
+        <!-- Yes Page -->
+        <div class="yes-page" id="yesPage">
+            <h1>Youpi! Tu as dit Oui! 🎉</h1>
+            
+            <div class="gif-container">
+                <img class="yes-gif" src="https://media.giphy.com/media/l41m04gr7tRet7Uas/giphy.gif" alt="Minions s'embrassant romantiquement">
+            </div>
+            
+            <div class="celebration">
+                <p>Je suis si heureux! 💖</p>
+                <p>Tu as illuminé ma soirée! 🌟</p>
+                <p>Je t'aime! 💕</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Hearts -->
+    <div class="heart" style="left: 10%; top: 20%; animation-delay: 0s;">❤️</div>
+    <div class="heart" style="left: 80%; top: 30%; animation-delay: 1s;">💕</div>
+    <div class="heart" style="left: 20%; top: 60%; animation-delay: 2s;">💖</div>
+    <div class="heart" style="left: 70%; top: 70%; animation-delay: 1.5s;">💝</div>
+    <div class="heart" style="left: 50%; top: 10%; animation-delay: 0.5s;">💗</div>
+    <div class="heart" style="left: 30%; top: 40%; animation-delay: 2.5s;">❣️</div>
+    <div class="heart" style="left: 60%; top: 50%; animation-delay: 1.8s;">💞</div>
+
+    <!-- Rose Petals -->
+    <div class="rose-petal" style="left: 15%; animation-delay: 0s; animation-duration: 7s;"></div>
+    <div class="rose-petal" style="left: 35%; animation-delay: 2s; animation-duration: 9s;"></div>
+    <div class="rose-petal" style="left: 55%; animation-delay: 4s; animation-duration: 8s;"></div>
+    <div class="rose-petal" style="left: 75%; animation-delay: 1s; animation-duration: 10s;"></div>
+    <div class="rose-petal" style="left: 25%; animation-delay: 3s; animation-duration: 7.5s;"></div>
+    <div class="rose-petal" style="left: 85%; animation-delay: 5s; animation-duration: 8.5s;"></div>
+
+    <script>
+        let noClickCount = 0;
+        
+        // Mathematical equation: Using exponential growth
+        // Formula: scale = 1.2 * (1.15)^clicks
+        // At 15 clicks: scale ≈ 9.85 (covers full screen)
+        const CLICKS_TO_FULLSCREEN = 15;
+        
+        const noTexts = [
+            "Non",
+            "Tu es sûre?",
+            "Vraiment sûre?",
+            "Réfléchis encore!",
+            "Mais... 🥺",
+            "Tu pourrais le regretter!",
+            "S'il te plaît reconsidère!",
+            "Allez!",
+            "Ne fais pas ça! 💔",
+            "Une autre chance?",
+            "S'il te plaît? 🙏",
+            "Je deviens triste... 😢",
+            "S'il te plaît!!!",
+            "Mon cœur se brise! 💔",
+            "Dernière chance!",
+            "Ne me fais pas pleurer! 😭",
+            "Bon, comme tu veux! 😤",
+            "Tu me tues! ☠️",
+            "Ok j'abandonne... 😔",
+            "Attends... peut-être? 🤔"
+        ];
+
+        function getRandomPosition() {
+            const button = document.getElementById('noBtn');
+            
+            // Get safe boundaries (keep button fully visible)
+            const maxX = window.innerWidth - button.offsetWidth - 20;
+            const maxY = window.innerHeight - button.offsetHeight - 20;
+            const minX = 20;
+            const minY = 20;
+            
+            let randomX = Math.random() * (maxX - minX) + minX;
+            let randomY = Math.random() * (maxY - minY) + minY;
+            
+            return { x: randomX, y: randomY };
+        }
+
+        function handleNoClick() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            noClickCount++;
+            
+            // Update No button text
+            if (noClickCount < noTexts.length) {
+                noBtn.textContent = noTexts[noClickCount];
+            } else {
+                // Cycle through the last few dramatic ones
+                noBtn.textContent = noTexts[noTexts.length - 1 - (noClickCount % 3)];
+            }
+            
+            // Move No button to random position
+            const pos = getRandomPosition();
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = pos.x + 'px';
+            noBtn.style.top = pos.y + 'px';
+            
+            // Mathematical growth formula: exponential scaling
+            // scale = baseFontSize * (growthFactor)^clicks
+            const baseFontSize = 1.2; // em
+            const growthFactor = 1.15; // 15% growth per click
+            const newScale = baseFontSize * Math.pow(growthFactor, noClickCount);
+            
+            yesBtn.style.fontSize = newScale + 'em';
+            
+            // Calculate padding growth
+            const basePadding = 15; // px
+            const paddingHorizontal = 35; // px
+            const newPadding = basePadding + (noClickCount * 2);
+            const newPaddingH = paddingHorizontal + (noClickCount * 4);
+            
+            yesBtn.style.padding = newPadding + 'px ' + newPaddingH + 'px';
+            
+            // After calculated clicks, make Yes button cover entire screen
+            if (noClickCount >= CLICKS_TO_FULLSCREEN) {
+                yesBtn.classList.add('fullscreen-yes');
+                yesBtn.style.fontSize = '3em';
+                yesBtn.textContent = 'Oui! Clique sur moi maintenant! 💕';
+                noBtn.style.display = 'none';
+            }
+            
+            // Make No button smaller as well
+            if (noClickCount > 5) {
+                const noScale = Math.max(0.6, 1.2 - (noClickCount * 0.08));
+                noBtn.style.fontSize = noScale + 'em';
+            }
+        }
+
+        function showYesPage() {
+            document.getElementById('questionPage').style.display = 'none';
+            document.getElementById('yesPage').style.display = 'block';
+            
+            // Create confetti
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 50);
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.background = ['#ff1744', '#ff5722', '#ffc371', '#ff6b9d'][Math.floor(Math.random() * 4)];
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        // Prevent zoom on double tap (iOS Safari)
+        document.addEventListener('touchend', function(event) {
+            const now = new Date().getTime();
+            const timeSince = now - lastTouchEnd;
+            if (timeSince < 300 && timeSince > 0) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        let lastTouchEnd = 0;
+    </script>
+</body>
+</html>
